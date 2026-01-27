@@ -22,6 +22,7 @@ Lifo NewLifo(size_t capacity) {
   return lifo;
 }
 
+/* The number of entries on the stack. */
 size_t Lifo_len(Lifo *self){
   if (self->_tail > self->_head) {
     return (size_t) (self->_tail - self->_head);
@@ -30,10 +31,12 @@ size_t Lifo_len(Lifo *self){
   }
 }
 
+/* The maximum number of entries that can be pushed onto the stack. */
 size_t Lifo_cap(Lifo *self){
   return self->_capacity;
 };
 
+/* Pop the last entry pushed onto the stack if the stack is not empty. */
 bool Lifo_pop(Lifo *self, BUFFER_TYPE *val){
   if(val == NULL || self == NULL || Lifo_len(self) <= 0) {
     return false;
@@ -43,6 +46,7 @@ bool Lifo_pop(Lifo *self, BUFFER_TYPE *val){
   }
 };
 
+/* Push an entry onto the stack if the stack is not full. */
 bool Lifo_push(Lifo *self, BUFFER_TYPE val){
   if(self == NULL || (Lifo_len(self) >= Lifo_cap(self))) {
     return false;
@@ -52,7 +56,16 @@ bool Lifo_push(Lifo *self, BUFFER_TYPE val){
   }
 };
 
-// test
+/* Release the heap-allocated memory used to creat the stack. */
+void Lifo_del(Lifo *self){
+  if (self->_head != NULL) {
+    free(self->_head);
+    // NOTE: cannot set _head to NULL as it is constant (beware of double-free vulns)
+    self->_tail = NULL;
+  }
+}
+
+// unit-tests
 int main(int argc, char **argv){
   size_t cap = 10;
   Lifo lifo = NewLifo(cap);

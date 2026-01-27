@@ -1,5 +1,17 @@
-# cheap
-Heap-allocated datastructures written in C
+# C-Heap (cheap)
+Heap-allocated datastructures written in C.
+
+## Last-In-First-Out Buffer (LIFO)
+Also known as a `stack`.
+
+### Build
+```bash
+gcc -g -Wall lifo.c -o lifo
+```
+### Test
+```bash
+./lifo
+```
 
 # References
 
@@ -7,3 +19,4 @@ Heap-allocated datastructures written in C
 - [GNU Make manual](https://www.gnu.org/software/make/manual/make.html)
 - [C Macros](https://gcc.gnu.org/onlinedocs/cpp/Macros.html)
 - [Unity: C unit-testing](https://www.throwtheswitch.org/unity)
+- [generate `compile_commands.json` using the `bear` cli tool](https://github.com/rizsotto/Bear)
