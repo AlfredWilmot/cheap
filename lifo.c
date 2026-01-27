@@ -8,15 +8,17 @@
 
 typedef struct Lifo {
   size_t _capacity;
-  BUFFER_TYPE *_head;  // dictates the base of stack memory, never change
+  BUFFER_TYPE *const _head;  // dictates the base of stack memory, never change
   BUFFER_TYPE *_tail;        // the stack ptr <= _head + capacity
 } Lifo;
 
 Lifo NewLifo(size_t capacity) {
-  Lifo lifo;
-  lifo._capacity = capacity;
-  lifo._head = (BUFFER_TYPE *) malloc(sizeof(BUFFER_TYPE) * capacity);  // determines stack allocation
-  lifo._tail = lifo._head; // tail is stack-pointer, start at base of stack returned by malloc
+  Lifo lifo = {
+    ._capacity = capacity,
+    ._head = (BUFFER_TYPE *const) malloc(sizeof(BUFFER_TYPE) * capacity),  // determines stack allocation
+    ._tail = NULL,
+  };
+  lifo._tail = (BUFFER_TYPE *) lifo._head; // stack-pointer, start at base of stack returned by malloc
   return lifo;
 }
 
