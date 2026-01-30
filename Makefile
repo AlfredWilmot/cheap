@@ -9,9 +9,13 @@ LIBS=lib
 TESTS=tests
 
 sources=$(wildcard ${SRCS}/*.c)
-objects=${OBJS}/lifo.o
+objects=$(sources:.c=.o)
 
-all: ${OBJS} ${BINS} ${LIBS} ${objects}
+# ensure directories are present before creating build artifacts to put in them
+all: ${OBJS} ${BINS} ${LIBS} ${objects} ${BINS}/lifo
+
+${BINS}/lifo: ${OBJS} ${BINS} ${LIBS} ${objects}
+	${CC} ${objects} -o $@
 
 # compile object files corresponding to their source files
 ${objects}: ${sources}
@@ -25,5 +29,8 @@ ${BINS}:
 ${LIBS}:
 	mkdir -p $@
 
-clean: ${OBJS} ${BINS} ${LIBS}
-	$(foreach item,$^, rm -f $(wildcard ./${item}/*);)
+clean:
+	rm -f ${objects}
+
+# designate targets that aren't files
+.PHONY: clean

@@ -56,3 +56,8 @@ dkms.conf
 
 # compile info
 compile_commands.json
+
+# build artifact dirs
+bin/
+lib/
+obj/
