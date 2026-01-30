@@ -6,12 +6,12 @@ Also known as a `stack`.
 
 ### Build
 ```bash
-gcc -g -Wall lifo.c -o lifo
+make
 ```
+
 ### Test
-```bash
-./lifo
-```
+> [!WARNING]
+> `TODO`
 
 # References
 
@@ -20,3 +20,4 @@ gcc -g -Wall lifo.c -o lifo
 - [C Macros](https://gcc.gnu.org/onlinedocs/cpp/Macros.html)
 - [Unity: C unit-testing](https://www.throwtheswitch.org/unity)
 - [generate `compile_commands.json` using the `bear` cli tool](https://github.com/rizsotto/Bear)
+- [Makefile Tutorial](https://makefiletutorial.com/)
