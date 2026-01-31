@@ -1,5 +1,5 @@
 # debug symbols, all compiler warnings
-CFLAGS=-g -Wall
+CFLAGS=-g -Wall -fsanitize=address
 CC=gcc
 
 SRC=src

@@ -23,6 +23,6 @@ bool Lifo_pop(Lifo *, BUFFER_TYPE *);
 bool Lifo_push(Lifo *, BUFFER_TYPE);
 
 /* Release the heap-allocated memory used to creat the stack. */
-void Lifo_del(Lifo *);
+void Lifo_del(Lifo **);
 
 #endif

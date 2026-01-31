@@ -7,26 +7,27 @@
 
 struct Lifo {
   size_t _capacity;
-  BUFFER_TYPE *_head;  // base of stack memory, never changes (cannot make const due to opaque struct)
-  BUFFER_TYPE *_tail;  // the stack ptr <= _head + capacity
+  size_t _tail;  // top of the stack
+  BUFFER_TYPE _buffer[];  // base of stack memory, never changes (cannot make const due to opaque struct)
 } ;
 
 Lifo *NewLifo(size_t capacity) {
-  Lifo *lifo = (Lifo *) malloc(sizeof(Lifo));
+
+  Lifo *lifo = (Lifo *) malloc(sizeof(Lifo) + sizeof(BUFFER_TYPE) * capacity);
+  if (lifo == NULL) {
+    printf("ERR: could not allocate Lifo container.");
+    exit(EXIT_FAILURE);
+  }
+
   lifo->_capacity = capacity,
-  lifo->_head = (BUFFER_TYPE *const) malloc(sizeof(BUFFER_TYPE) * capacity),  // determines stack allocation
-  lifo->_tail = (BUFFER_TYPE *) lifo->_head; // stack-pointer, start at base of stack returned by malloc
+  lifo->_tail = 0;
 
   return lifo;
 }
 
 /* The number of entries on the stack. */
 size_t Lifo_len(Lifo *self){
-  if (self->_tail > self->_head) {
-    return (size_t) (self->_tail - self->_head);
-  } else {
-    return (size_t) (self->_head - self->_tail);
-  }
+  return self->_tail;
 }
 
 /* The maximum number of entries that can be pushed onto the stack. */
@@ -36,29 +37,26 @@ size_t Lifo_cap(Lifo *self){
 
 /* Pop the last entry pushed onto the stack if the stack is not empty. */
 bool Lifo_pop(Lifo *self, BUFFER_TYPE *val){
-  if(val == NULL || self == NULL || Lifo_len(self) <= 0) {
-    return false;
-  } else {
-    *val = *--self->_tail; // decrement stack ptr then pop value from memory
+  if (self->_tail > 0 ) {
+    *val = self->_buffer[--self->_tail];
     return true;
+  } else {
+    return false;
   }
 };
 
 /* Push an entry onto the stack if the stack is not full. */
 bool Lifo_push(Lifo *self, BUFFER_TYPE val){
-  if(self == NULL || (Lifo_len(self) >= Lifo_cap(self))) {
+  if (self->_tail < self->_capacity) {
     return false;
   } else {
-    *self->_tail++ = val; // push value into memory then increment stack ptr
+    self->_buffer[self->_tail++] = val;
     return true;
   }
 };
 
-/* Release the heap-allocated memory used to creat the stack. */
-void Lifo_del(Lifo *self){
-  if (self->_head != NULL) {
-    free(self->_head);
-    // NOTE: cannot set _head to NULL as it is constant (beware of double-free vulns)
-    self->_tail = NULL;
-  }
+/* Release the heap-allocated memory used to create the stack. */
+void Lifo_del(Lifo **self){
+  free((*self));
+  *self = NULL; // prevent double-free vuln
 }
