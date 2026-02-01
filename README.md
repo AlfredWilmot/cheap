@@ -21,3 +21,7 @@ make
 - [Unity: C unit-testing](https://www.throwtheswitch.org/unity)
 - [generate `compile_commands.json` using the `bear` cli tool](https://github.com/rizsotto/Bear)
 - [Makefile Tutorial](https://makefiletutorial.com/)
+- [C/C++ Vulns](https://learn.snyk.io/catalog/?format=lesson&categories=cpp)
+- [Tutorial: C unit-tests using Make and critereon](https://youtu.be/JarMkGWTF8Y?si=8bzlfJqC22s2tgl5)
+- [Tutorial: expect library for testing interactive CLI programs](https://www.youtube.com/watch?v=6UbL3qeF2lo)
+- [Address Sanitizer](https://github.com/google/sanitizers/wiki/AddressSanitizer)
