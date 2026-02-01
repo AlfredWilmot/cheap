@@ -27,12 +27,12 @@ memcheck:
 
 # assemble object files corresponding to their source files
 ${objects}: ${sources}
-	${CC} ${CFLAGS} -c $^ -o $@
+	bear -- ${CC} ${CFLAGS} -c $^ -o $@
 
 # link test binaries from object files
 #${BIN}/%: ${TESTS}/%.c
 ${testbins}: ${testsrcs}
-	${CC} ${CFLAGS} $< ${objects} -o $@ -lcriterion
+	bear -- ${CC} ${CFLAGS} $< ${objects} -o $@ -lcriterion
 
 # targets for creating directories containing build artifacts
 ${OBJ}:
