@@ -1,6 +1,10 @@
 # debug symbols, all compiler warnings
 CFLAGS=-g -Wall -fsanitize=address
+# https://github.com/google/sanitizers/wiki/AddressSanitizer
+
 CC=gcc
+SHELL=/bin/bash
+.SHELLFLAGS := -ecuo pipefail
 
 SRC=src
 OBJ=obj
@@ -8,10 +12,10 @@ LIB=lib
 TESTS=tests
 BIN=${TESTS}/bin
 
-sources=$(wildcard ${SRC}/*.c)
+sources=$(shell find ${SRC} -name '*.c')
 objects=$(sources:${SRC}/%.c=${OBJ}/%.o)
 
-testsrcs=$(wildcard ${TESTS}/*.c)
+testsrcs=$(shell find ${TESTS} -name '*.c')
 testbins=$(testsrcs:${TESTS}/%.c=${BIN}/%)
 
 # ensure directories are present before creating build artifacts to put in them
@@ -20,10 +24,6 @@ all: ${OBJ} ${BIN} ${LIB} ${objects} ${testbins} ${sources}
 # run unit tests
 test: ${OBJ} ${BIN} ${LIB} ${objects} ${testbins} ${sources}
 	for test in ${testbins}; do ./$$test ; done
-
-memcheck:
-	for test in ${testbins}; do valgrind -s --tool=memcheck $$test; done
-
 
 # assemble object files corresponding to their source files
 ${objects}: ${sources}
@@ -41,6 +41,9 @@ ${BIN}:
 	mkdir -p $@
 ${LIB}:
 	mkdir -p $@
+
+memcheck: ${objects} ${testbins}
+	echo $(testbins) | xargs valgrind -s --tool=memcheck
 
 clean:
 	rm -f ${objects} ${testbins}
