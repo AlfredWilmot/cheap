@@ -15,7 +15,15 @@ testsrcs=$(wildcard ${TESTS}/*.c)
 testbins=$(testsrcs:${TESTS}/%.c=${BIN}/%)
 
 # ensure directories are present before creating build artifacts to put in them
-all: ${OBJ} ${BIN} ${LIB} ${objects} ${testbins}
+all: ${OBJ} ${BIN} ${LIB} ${objects} ${testbins} ${sources}
+
+# run unit tests
+test: ${OBJ} ${BIN} ${LIB} ${objects} ${testbins} ${sources}
+	for test in ${testbins}; do ./$$test ; done
+
+memcheck:
+	for test in ${testbins}; do valgrind -s --tool=memcheck $$test; done
+
 
 # assemble object files corresponding to their source files
 ${objects}: ${sources}
@@ -34,12 +42,8 @@ ${BIN}:
 ${LIB}:
 	mkdir -p $@
 
-# run unit tests
-test: ${LIB} ${BIN} ${testbins} ${objects}
-	for test in ${testbins}; do ./$$test ; done
-
 clean:
 	rm -f ${objects} ${testbins}
 
 # designate targets that aren't files
-.PHONY: test clean
+.PHONY: test clean memcheck

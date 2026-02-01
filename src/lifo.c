@@ -1,5 +1,4 @@
 #include <stdbool.h>
-#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -48,10 +47,10 @@ bool Lifo_pop(Lifo *self, BUFFER_TYPE *val){
 /* Push an entry onto the stack if the stack is not full. */
 bool Lifo_push(Lifo *self, BUFFER_TYPE val){
   if (self->_tail < self->_capacity) {
-    return false;
-  } else {
     self->_buffer[self->_tail++] = val;
     return true;
+  } else {
+    return false;
   }
 };
 
