@@ -1,17 +1,23 @@
 # C-Heap (cheap)
 Heap-allocated datastructures written in C.
 
-## Last-In-First-Out Buffer (LIFO)
-Also known as a `stack`.
+This library currently provides the following data-structures:
+- LIFO (Last In First Out) buffer, aka "Stack"
 
-### Build
+## Usage
 ```bash
+# generate build-artifacts and compile_commands.json file for LSPs
 make
-```
 
-### Test
-> [!WARNING]
-> `TODO`
+# run unit-tests
+make test
+
+# check for memory-leaks
+make memcheck
+
+# clear build artifacts
+make clean
+```
 
 # References
 
