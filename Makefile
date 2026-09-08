@@ -30,7 +30,6 @@ ${objects}: ${sources}
 	bear -- ${CC} ${CFLAGS} -c $^ -o $@
 
 # link test binaries from object files
-#${BIN}/%: ${TESTS}/%.c
 ${testbins}: ${testsrcs}
 	bear -- ${CC} ${CFLAGS} $< ${objects} -o $@ -lcriterion
 
