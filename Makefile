@@ -1,5 +1,5 @@
 # debug symbols, all compiler warnings
-CFLAGS=-g -Wall -fsanitize=address
+DEVFLAGS=-fsanitize=address -g -Wall
 # https://github.com/google/sanitizers/wiki/AddressSanitizer
 
 CC=gcc
@@ -27,11 +27,11 @@ test: ${OBJ} ${BIN} ${LIB} ${objects} ${testbins} ${sources}
 
 # assemble object files corresponding to their source files
 ${objects}: ${sources}
-	bear -- ${CC} ${CFLAGS} -c $^ -o $@
+	bear -- ${CC} ${DEVFLAGS} -c $^ -o $@
 
 # link test binaries from object files
 ${testbins}: ${testsrcs}
-	bear -- ${CC} ${CFLAGS} $< ${objects} -o $@ -lcriterion
+	bear -- ${CC} ${DEVFLAGS} $< ${objects} -o $@ -lcriterion
 
 # targets for creating directories containing build artifacts
 ${OBJ}:

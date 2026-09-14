@@ -6,13 +6,17 @@ RUN pacman-key --init && pacman-key --populate archlinux
 
 # install updates and system deps (bear -> generate compilation db; criterion -> unit-test harness),
 # and remove old packages/cache-dir
-RUN pacman -Suy --noconfirm \
-  bear criterion \
-  && pacman -Scc --noconfirm
+RUN pacman -Suy --noconfirm bear criterion valgrind && pacman -Scc --noconfirm
 
 # create non-privileged user
 # (https://runbook.academy/courses/linux/lessons/linux-service-and-system-accounts/)
-RUN useradd --system --home-dir /workdir --create-home -s /usr/sbin/nologin nonroot
+ARG USER_ID
+
+# NOTE: env-var necessary for memcheck to work (https://bbs.archlinux.org/viewtopic.php?id=276422)
+ENV DEBUGINFOD_URLS="https://debuginfod.archlinux.org"
+
+RUN useradd -u ${USER_ID} -U --system --home-dir /workdir --create-home -s /usr/sbin/nologin nonroot
 
 WORKDIR /workdir
 USER nonroot
+ENTRYPOINT ["/usr/bin/bash"]

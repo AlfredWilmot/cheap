@@ -64,3 +64,7 @@ obj/
 
 # clangd cache
 .cache/
+
+# HACK: ignore files generated from the container volume-mount at runtime
+# (a better solution would be to configure the container to not generate these in the first place!)
+.bash_history

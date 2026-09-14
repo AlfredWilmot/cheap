@@ -4,6 +4,17 @@ Heap-allocated datastructures written in C.
 This library currently provides the following data-structures:
 - LIFO (Last In First Out) buffer, aka "Stack"
 
+## Setup
+Some system files must be installed before this project can be built:
+- [valgrind](https://valgrind.org/) (checking memory leaks via `memcheck`)
+- [bear](https://github.com/rizsotto/Bear) (building the `compile_commands.json` compilation db)
+- [criterion](https://github.com/Snaipe/Criterion) (C/C++ unit-testing framework)
+
+> [!WARNING]
+> A `Dockerfile` is provided for a dev-container setup, but additional work is needed
+> for a clangd LSP server running on the container to work with an IDE running on the host.
+
+
 ## Usage
 ```bash
 # generate build-artifacts and compile_commands.json file for LSPs

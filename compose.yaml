@@ -1,8 +1,17 @@
 services:
   c-dev:
+    hostname: c-dev
     container_name: c-dev
     image: local/c-dev
+
+    # equivalent to running container with "-it"
+    tty: true
+    stdin_open: true
+
     build:
       context: .
-      dockerfile: Dockerfile
-    command: /bin/bash
+      dockerfile: .dockerfiles/debian.Dockerfile
+      args:
+        USER_ID: "${USER_ID}"
+    volumes:
+      - "${PWD}:/workdir"

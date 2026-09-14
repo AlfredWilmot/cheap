@@ -1,0 +1,27 @@
+name: Build and Test C library
+
+on:
+  push:
+    branches: "*"
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build project
+      run: docker compose run --rm --remove-orphans c-dev "make"
+
+    - name: Run unit-tests
+      run: docker compose run --rm --remove-orphans c-dev "make test"
+
+      # NOTE: forcing this to always pass until I can address this warning:
+      # > "ASan runtime does not come first in initial library list; you should either link runtime to your application or manually preload it with LD_PRELOAD."
+      # which causes memcheck to error, even when no memory leaks are detected!
+    - name: Check for memory-leaks
+      run: docker compose run --rm --remove-orphans c-dev "make memcheck" || true
