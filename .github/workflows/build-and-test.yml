@@ -14,6 +14,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Build CI container
+      run: docker compose build --build-arg USER_ID="$(id -u)" c-dev
+
     - name: Build project
       run: docker compose run --rm --remove-orphans c-dev "make"
 
