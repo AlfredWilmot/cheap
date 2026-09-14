@@ -1,6 +1,17 @@
 # debug symbols, all compiler warnings
-DEVFLAGS=-fsanitize=address -g -Wall
-# https://github.com/google/sanitizers/wiki/AddressSanitizer
+DEVFLAGS := \
+	-O2 -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough -Werror=format-security \
+	-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 \
+	-D_GLIBCXX_ASSERTIONS \
+	-D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_FAST \
+	-fstrict-flex-arrays=3 \
+	-fstack-clash-protection -fstack-protector-strong \
+	-Wl,-z,nodlopen -Wl,-z,noexecstack \
+	-Wl,-z,relro -Wl,-z,now \
+	-Wl,--as-needed -Wl,--no-copy-dt-needed-entries \
+	-fsanitize=address -g -Wall
+# (https://github.com/google/sanitizers/wiki/AddressSanitizer)
+# (https://best.openssf.org/Compiler-Hardening-Guides/Compiler-Options-Hardening-Guide-for-C-and-C++.html)
 
 CC=gcc
 SHELL=/bin/bash

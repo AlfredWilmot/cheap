@@ -43,24 +43,24 @@ Test(lifotests, capacity_matches_allocated_amount){
 
 Test(lifotests, push_til_full_then_pop_til_empty){
 
-  for (size_t i = 1; i <= TEST_CAPACITY; i++) {
+  for (int i = 1; i <= TEST_CAPACITY; i++) {
     cr_expect(Lifo_push(lifo, i), "expect pushing to LIFO within its capacity to succeed");
-    cr_expect(Lifo_len(lifo) == i, "expect length to match push count: %zu", i);
+    cr_expect(Lifo_len(lifo) == i, "expect length to match push count: %d", i);
     cr_expect(Lifo_cap(lifo) == TEST_CAPACITY, "expect capacity to remain unchanged");
   }
 
   BUFFER_TYPE val = 0;
-  for (size_t i = TEST_CAPACITY; i > 0 ; i--) {
+  for (int i = TEST_CAPACITY; i > 0 ; i--) {
     cr_expect(Lifo_pop(lifo, &val), "expect popping from LIFO with entries to succeed");
     cr_expect(val == i, "expect value to correspond to entry popped from LIFO");
-    cr_expect(Lifo_len(lifo) == i - 1, "expect length to match pop count %zu", i);
+    cr_expect(Lifo_len(lifo) == i - 1, "expect length to match pop count %d", i);
     cr_expect(Lifo_cap(lifo) == TEST_CAPACITY, "expect capacity to remain unchanged");
   }
 
 }
 
 Test(lifotests, push_when_full){
-  for (size_t i = 1; i <= TEST_CAPACITY; i++) {
+  for (int i = 1; i <= TEST_CAPACITY; i++) {
     Lifo_push(lifo, i);
   }
   cr_expect(Lifo_push(lifo, 0) == false, "expect pushing to full LIFO to fail");
