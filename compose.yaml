@@ -10,6 +10,10 @@ services:
 
     build:
       context: .
+      cache_from:
+        - type=gha,scope=images,mode=max
+      cache_to:
+        - type=gha,scope=images
       dockerfile: .dockerfiles/debian.Dockerfile
       args:
         USER_ID: "${USER_ID}"
