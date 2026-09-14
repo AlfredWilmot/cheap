@@ -8,7 +8,6 @@ SHELL=/bin/bash
 
 SRC=src
 OBJ=obj
-LIB=lib
 TESTS=tests
 BIN=${TESTS}/bin
 
@@ -19,10 +18,10 @@ testsrcs=$(shell find ${TESTS} -name '*.c')
 testbins=$(testsrcs:${TESTS}/%.c=${BIN}/%)
 
 # ensure directories are present before creating build artifacts to put in them
-all: ${OBJ} ${BIN} ${LIB} ${objects} ${testbins} ${sources}
+all: ${OBJ} ${BIN} ${objects} ${testbins} ${sources}
 
 # run unit tests
-test: ${OBJ} ${BIN} ${LIB} ${objects} ${testbins} ${sources}
+test: ${OBJ} ${BIN} ${objects} ${testbins} ${sources}
 	for test in ${testbins}; do ./$$test ; done
 
 # assemble object files corresponding to their source files
@@ -37,8 +36,6 @@ ${testbins}: ${testsrcs}
 ${OBJ}:
 	mkdir -p $@
 ${BIN}:
-	mkdir -p $@
-${LIB}:
 	mkdir -p $@
 
 memcheck: ${objects} ${testbins}
