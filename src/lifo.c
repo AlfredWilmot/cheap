@@ -39,9 +39,8 @@ bool Lifo_pop(Lifo *self, BUFFER_TYPE *val){
   if (self->_tail > 0 ) {
     *val = self->_buffer[--self->_tail];
     return true;
-  } else {
-    return false;
   }
+  return false;
 };
 
 /* Push an entry onto the stack if the stack is not full. */
@@ -49,9 +48,8 @@ bool Lifo_push(Lifo *self, BUFFER_TYPE val){
   if (self->_tail < self->_capacity) {
     self->_buffer[self->_tail++] = val;
     return true;
-  } else {
-    return false;
   }
+  return false;
 };
 
 /* Release the heap-allocated memory used to create the stack. */
